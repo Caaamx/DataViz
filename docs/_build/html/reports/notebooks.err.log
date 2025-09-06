@@ -1,0 +1,126 @@
+Traceback (most recent call last):
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\asyncio\base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\camil\anaconda3\envs\ML_VENV\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy.stats import chi2_contingency
+
+# ================================
+# Función de hot-deck por grupo
+# ================================
+def hot_deck_group(df, col, group, random_state=42):
+    rng = np.random.default_rng(random_state)
+    out = df[col].copy()
+
+    # Calcular moda global de la columna (para grupos sin donantes)
+    global_mode = df[col].mode(dropna=True)[0]
+
+    for g, sub in df.groupby(group):
+        pool = sub[col].dropna().to_numpy()
+        idx = sub.index[sub[col].isna()]
+
+        if len(idx) > 0:
+            if pool.size > 0:  # Caso normal: imputar con valores del grupo
+                out.loc[idx] = rng.choice(pool, size=len(idx), replace=True)
+            else:  # Caso raro: grupo sin donantes → imputar con moda global
+                out.loc[idx] = global_mode
+
+    return out
+
+
+# ================================
+# Imputación de segmento en df_imputado (reemplazando la misma columna)
+# ================================
+df_imputado["segmento"] = hot_deck_group(df_imputado, "segmento", "ciudad")
+
+# Mantener tipo categórico con categorías originales del df
+df_imputado["segmento"] = df_imputado["segmento"].astype("category")
+df_imputado["segmento"] = df_imputado["segmento"].cat.set_categories(df["segmento"].dropna().unique())
+
+# ================================
+# Comparación visual con df original
+# ================================
+fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
+
+sns.countplot(x=df["segmento"], ax=axes[0], palette="pastel",
+              order=df["segmento"].dropna().unique())
+axes[0].set_title("Segmento - Antes de imputar (df)")
+axes[0].set_ylabel("Frecuencia")
+
+sns.countplot(x=df_imputado["segmento"], ax=axes[1], palette="muted",
+              order=df["segmento"].dropna().unique())
+axes[1].set_title("Segmento - Después de imputar (df_imputado)")
+axes[1].set_ylabel("Frecuencia")
+
+plt.suptitle("Comparación de distribución en segmento", fontsize=14, weight="bold")
+plt.show()
+
+# ================================
+# Validación con Chi2 y Cramér's V
+# ================================
+orig_counts = df["segmento"].value_counts().sort_index()
+imp_counts = df_imputado["segmento"].value_counts().sort_index()
+orig_counts, imp_counts = orig_counts.align(imp_counts, fill_value=0)
+ct = pd.DataFrame({"original": orig_counts, "imputada": imp_counts}).T
+
+chi2, p, dof, exp = chi2_contingency(ct)
+v = cramers_v(ct)
+
+print("=== SEGMENTO ===")
+print("Proporciones antes:\n", (orig_counts / orig_counts.sum()).round(3))
+print("Proporciones después:\n", (imp_counts / imp_counts.sum()).round(3))
+print(f"Chi2 = {chi2:.3f}, gl = {dof}, p = {p:.4f} → ",
+      "No se rechaza H0 (distribuciones iguales)" if p > 0.05 else "Se rechaza H0 (distribuciones diferentes)")
+print(f"Cramér's V = {v:.3f} (≈0: muy similar; 0.1: pequeño; 0.3: mediano; 0.5: grande)")
+print("-"*60)
+print(df_imputado["segmento"].value_counts())
+
+------------------
+
+----- stderr -----
+C:\Users\camil\AppData\Local\Temp\ipykernel_10836\388635181.py:44: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.countplot(x=df["segmento"], ax=axes[0], palette="pastel",
+C:\Users\camil\AppData\Local\Temp\ipykernel_10836\388635181.py:49: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.countplot(x=df_imputado["segmento"], ax=axes[1], palette="muted",
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mNameError[0m                                 Traceback (most recent call last)
+Cell [1;32mIn[18], line 66[0m
+[0;32m     63[0m ct [38;5;241m=[39m pd[38;5;241m.[39mDataFrame({[38;5;124m"[39m[38;5;124moriginal[39m[38;5;124m"[39m: orig_counts, [38;5;124m"[39m[38;5;124mimputada[39m[38;5;124m"[39m: imp_counts})[38;5;241m.[39mT
+[0;32m     65[0m chi2, p, dof, exp [38;5;241m=[39m chi2_contingency(ct)
+[1;32m---> 66[0m v [38;5;241m=[39m [43mcramers_v[49m(ct)
+[0;32m     68[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124m=== SEGMENTO ===[39m[38;5;124m"[39m)
+[0;32m     69[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124mProporciones antes:[39m[38;5;130;01m\n[39;00m[38;5;124m"[39m, (orig_counts [38;5;241m/[39m orig_counts[38;5;241m.[39msum())[38;5;241m.[39mround([38;5;241m3[39m))
+
+[1;31mNameError[0m: name 'cramers_v' is not defined
+
