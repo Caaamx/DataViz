@@ -545,7 +545,18 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">missingno</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">msno</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span> 
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNNImputer</span><span class="p">,</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">chi2_contingency</span><span class="p">,</span>
+    <span class="n">shapiro</span><span class="p">,</span>
+    <span class="n">ks_2samp</span><span class="p">,</span>
+    <span class="n">ttest_ind</span><span class="p">,</span>
+    <span class="n">mannwhitneyu</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1007,7 +1018,7 @@ puntuacion_credito    500            50.0
 demanda               150            15.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1481519374.py:16: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1481519374.py:16: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1111,29 +1122,27 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1070134475.py:8: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1070134475.py:8: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(data=df, x=col, order=df[col].value_counts().index, palette=&quot;Set2&quot;, ax=ax)
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1070134475.py:8: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1070134475.py:8: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(data=df, x=col, order=df[col].value_counts().index, palette=&quot;Set2&quot;, ax=ax)
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1070134475.py:8: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1070134475.py:8: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(data=df, x=col, order=df[col].value_counts().index, palette=&quot;Set2&quot;, ax=ax)
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1070134475.py:8: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1070134475.py:8: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(data=df, x=col, order=df[col].value_counts().index, palette=&quot;Set2&quot;, ax=ax)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\1070134475.py:8: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1070134475.py:8: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1207,7 +1216,6 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imputar solo las variables seleccionadas con la moda</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
 
 <span class="c1"># Crear imputador con estrategia de moda</span>
 <span class="n">imp_mode</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;most_frequent&quot;</span><span class="p">)</span>
@@ -1287,12 +1295,12 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 4    M          Cali
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\4162173844.py:32: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\971911029.py:31: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=df[var], ax=axes[0], palette=&quot;pastel&quot;)
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\4162173844.py:38: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\971911029.py:37: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1315,12 +1323,12 @@ Chi2 = 0.141, gl = 1, p = 0.7074 → No se rechaza H0 (distribuciones iguales)
 ------------------------------------------------------------
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\4162173844.py:32: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\971911029.py:31: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=df[var], ax=axes[0], palette=&quot;pastel&quot;)
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\4162173844.py:38: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\971911029.py:37: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1357,12 +1365,7 @@ Chi2 = 2.485, gl = 4, p = 0.6474 → No se rechaza H0 (distribuciones iguales)
 <h2>Edad<a class="headerlink" href="#edad" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span><span class="p">,</span> <span class="n">ks_2samp</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
-
-<span class="c1"># === IMPUTACIÓN POR MEDIANA (solo en &quot;edad&quot;) sobre df_imputado existente ===</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === IMPUTACIÓN POR MEDIANA (solo en &quot;edad&quot;) sobre df_imputado existente ===</span>
 <span class="n">imp_median</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span>
 <span class="n">df_imputado</span><span class="p">[</span><span class="s2">&quot;edad&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">imp_median</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_imputado</span><span class="p">[[</span><span class="s2">&quot;edad&quot;</span><span class="p">]])</span>
 
@@ -1461,13 +1464,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Función de hot-deck por grupo</span>
 <span class="c1"># ================================</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">hot_deck_group</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
@@ -1489,9 +1486,18 @@ dtype: int64
 
     <span class="k">return</span> <span class="n">out</span>
 
+<span class="c1"># ================================</span>
+<span class="c1"># Función Cramér&#39;s V</span>
+<span class="c1"># ================================</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cramers_v</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">):</span>
+    <span class="n">chi2</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">phi2</span> <span class="o">=</span> <span class="n">chi2</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">phi2</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># ================================</span>
-<span class="c1"># Imputación de segmento en df_imputado (reemplazando la misma columna)</span>
+<span class="c1"># Imputación de segmento en df_imputado</span>
 <span class="c1"># ================================</span>
 <span class="n">df_imputado</span><span class="p">[</span><span class="s2">&quot;segmento&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hot_deck_group</span><span class="p">(</span><span class="n">df_imputado</span><span class="p">,</span> <span class="s2">&quot;segmento&quot;</span><span class="p">,</span> <span class="s2">&quot;ciudad&quot;</span><span class="p">)</span>
 
@@ -1540,12 +1546,12 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_10836\388635181.py:44: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1910665059.py:47: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=df[&quot;segmento&quot;], ax=axes[0], palette=&quot;pastel&quot;,
-C:\Users\camil\AppData\Local\Temp\ipykernel_10836\388635181.py:49: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\1910665059.py:52: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1553,16 +1559,27 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </pre></div>
 </div>
 <img alt="_images/5867733620ab711018f0e148e98da778489980788bb007d9bab6f251267f776d.png" src="_images/5867733620ab711018f0e148e98da778489980788bb007d9bab6f251267f776d.png" />
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">66</span>
-<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;original&quot;</span><span class="p">:</span> <span class="n">orig_counts</span><span class="p">,</span> <span class="s2">&quot;imputada&quot;</span><span class="p">:</span> <span class="n">imp_counts</span><span class="p">})</span><span class="o">.</span><span class="n">T</span>
-<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">exp</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">66</span> <span class="n">v</span> <span class="o">=</span> <span class="n">cramers_v</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== SEGMENTO ===&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proporciones antes:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">orig_counts</span> <span class="o">/</span> <span class="n">orig_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-
-<span class="ne">NameError</span>: name &#39;cramers_v&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== SEGMENTO ===
+Proporciones antes:
+ segmento
+A    0.242
+B    0.571
+C    0.186
+Name: count, dtype: float64
+Proporciones después:
+ segmento
+A    0.235
+B    0.574
+C    0.191
+Name: count, dtype: float64
+Chi2 = 0.164, gl = 2, p = 0.9213 →  No se rechaza H0 (distribuciones iguales)
+Cramér&#39;s V = 0.010 (≈0: muy similar; 0.1: pequeño; 0.3: mediano; 0.5: grande)
+------------------------------------------------------------
+segmento
+B    574
+A    235
+C    191
+Name: count, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -1592,13 +1609,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Función hot-deck por grupo</span>
 <span class="c1"># ================================</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">hot_deck_group</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
@@ -1676,12 +1687,14 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_18256\1346502495.py:44: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\3990905741.py:38: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=df[&quot;estado_civil&quot;], ax=axes[0], palette=&quot;pastel&quot;,
-C:\Users\camil\AppData\Local\Temp\ipykernel_18256\1346502495.py:49: FutureWarning: 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\3990905741.py:43: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1736,15 +1749,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNNImputer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Copia de df_imputado</span>
 <span class="c1"># ================================</span>
 <span class="n">df_knn</span> <span class="o">=</span> <span class="n">df_imputado</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1831,12 +1836,12 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_18256\2003867012.py:54: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\camil\AppData\Local\Temp\ipykernel_15520\426106880.py:46: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=df[&quot;nivel_educativo&quot;], ax=axes[0], palette=&quot;pastel&quot;, order=orden)
-C:\Users\camil\AppData\Local\Temp\ipykernel_18256\2003867012.py:59: FutureWarning: 
+C:\Users\camil\AppData\Local\Temp\ipykernel_15520\426106880.py:51: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
@@ -1891,15 +1896,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span><span class="p">,</span> <span class="n">ks_2samp</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Codificación de variables categóricas en df_imputado</span>
 <span class="c1"># ================================</span>
 <span class="n">cat_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nivel_educativo&quot;</span><span class="p">,</span> <span class="s2">&quot;segmento&quot;</span><span class="p">,</span> <span class="s2">&quot;sexo&quot;</span><span class="p">,</span> <span class="s2">&quot;estado_civil&quot;</span><span class="p">]</span>
@@ -2038,14 +2035,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span><span class="p">,</span> <span class="n">ks_2samp</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Variables categóricas ya codificadas</span>
 <span class="c1"># ================================</span>
 <span class="n">cat_cols_enc</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nivel_educativo_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;segmento_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;sexo_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;estado_civil_enc&quot;</span><span class="p">]</span>
@@ -2177,14 +2167,7 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNNImputer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span><span class="p">,</span> <span class="n">ks_2samp</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
-
-<span class="c1"># ================================</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
 <span class="c1"># Variables categóricas codificadas</span>
 <span class="c1"># ================================</span>
 <span class="n">cat_cols_enc</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nivel_educativo_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;segmento_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;sexo_enc&quot;</span><span class="p">,</span> <span class="s2">&quot;estado_civil_enc&quot;</span><span class="p">]</span>
